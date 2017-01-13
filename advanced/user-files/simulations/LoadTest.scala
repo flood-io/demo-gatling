@@ -5,8 +5,8 @@ import io.gatling.http.Predef._
 
 class LoadTest extends Simulation {
   val threads   = Integer.getInteger("threads",  5)
-  val rampup    = Integer.getInteger("rampup",   10).toLong
-  val duration  = Integer.getInteger("duration", 120).toLong
+  val rampup    = java.lang.Long.getLong("rampup", 10L)
+  val duration  = java.lang.Long.getLong("duration", 30L)
 
   val httpConf = http.baseURL("https://loadtest.flood.io")
 
