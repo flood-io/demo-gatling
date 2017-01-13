@@ -13,7 +13,7 @@ class FloodLoadTest extends Simulation {
   // Optional, Flood IO will pass in threads, rampup and duration properties from UI
   val threads   = Integer.getInteger("threads",  100)
   val rampup    = java.lang.Long.getLong("rampup", 30L)
-  val duration  = java.lang.Long.getLong("duration", 300L)
+  val duration  = java.lang.Long.getLong("duration", 120L)
 
   // Mandatory, you must use httpConfigFlood
   val httpConf = httpConfigFlood.baseURL("https://loadtest.flood.io")
@@ -22,8 +22,11 @@ class FloodLoadTest extends Simulation {
     .during(duration seconds) {
       exec(Home.visit)
       .exec(Search.search)
-      .exec(Authentication.login)
-      .exec(Shopping.browse)
+      .group("AuthenticationAndShopping") {
+        exec(Authentication.login)
+        .exec(Shopping.browse)
+      }
+
       .pause(1000 milliseconds, 5000 milliseconds)
     }
 
